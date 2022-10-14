@@ -76,11 +76,10 @@ identifier.</p></li>
     <div class="dont-index">
 <ul><li><p><code><a href="getClassOneDrug.html">getClassOneDrug</a></code>  for selecting the samples
 with sensitive and resistant behavior for a
-specific drug screening.</p></li>
-<li><p><code><a href="getClassNoReplicateOneDrug.html">getClassNoReplicateOneDrug</a></code>  for selecting
-the unrelated samples (only one sample per patient)
-with sensitive and resistant behavior for a
-specific drug screening.</p></li>
+specific drug screening dataset.</p></li>
+<li><p><code><a href="selectNoReplicateOrganoids.html">selectNoReplicateOrganoids</a></code>  for selecting
+the unrelated samples (only one sample per patient) from a drug screening
+dataset.</p></li>
 </ul></div>
     </div>
 
@@ -93,23 +92,67 @@ specific drug screening.</p></li>
 <span class="r-in"><span><span class="co">## Load patient information dataset for 1 drug</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">patientInfo</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Calculate the extreme organoids for the methotrexate drug screening</span></span></span>
-<span class="r-in"><span><span class="co">## using a quantile of 1/3</span></span></span>
-<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="getClassNoReplicateOneDrug.html">getClassNoReplicateOneDrug</a></span><span class="op">(</span>drugScreening<span class="op">=</span><span class="va">drugScreening</span>,</span></span>
-<span class="r-in"><span>    drugName<span class="op">=</span><span class="st">"Methotrexate"</span>, study<span class="op">=</span><span class="st">"MEGA-TEST"</span>, screenType<span class="op">=</span><span class="st">"TEST-01"</span>,</span></span>
-<span class="r-in"><span>    patientInfo<span class="op">=</span><span class="va">patientInfo</span>, doseType<span class="op">=</span><span class="st">"Averaged"</span>, quantile<span class="op">=</span><span class="fl">1</span><span class="op">/</span><span class="fl">4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">## Select unrelated organoids in the drug screening</span></span></span>
+<span class="r-in"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="selectNoReplicateOrganoids.html">selectNoReplicateOrganoids</a></span><span class="op">(</span>drugScreening<span class="op">=</span><span class="va">drugScreening</span>,</span></span>
+<span class="r-in"><span>    patientInfo<span class="op">=</span><span class="va">patientInfo</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## The information of the extreme organoids is found it the 'extreme' entry</span></span></span>
-<span class="r-in"><span><span class="va">results</span><span class="op">$</span><span class="va">extreme</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   organoid_id relative_auc     group</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1       hT192     33.11044 SENSITIVE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       hT102     46.11044 SENSITIVE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      hT1001     52.61044   AVERAGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4      hT2211     53.57622   AVERAGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       hT322     55.22300   AVERAGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      hT1051     60.28033   AVERAGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7      hT2212     75.67628 RESISTANT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8       hT999     97.31222 RESISTANT</span>
+<span class="r-in"><span><span class="co">## The drug screen dataset has been filtered</span></span></span>
+<span class="r-in"><span><span class="va">results</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        organoid_id Column1  plate passage_number timestamp      study</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT1001      hT1001       2 Plate1            P16  2/2/1988  MEGA-TEST</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT102        hT102       3 Plate1            P14  2/2/1994  MEGA-TEST</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT1051      hT1051       3 Plate1            P11  1/1/1970  MEGA-TEST</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT192        hT192       4 Plate1            P11  2/2/1994  MEGA-TEST</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2211      hT2211       3 Plate1            P14  1/1/1970  MEGA-TEST</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2212      hT2212       5 Plate1            P29  1/1/1970  MEGA-TEST</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2213      hT2213       5 Plate2            P12  1/1/1970  MEGA-TEST</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2251      hT2251       5 Plate1            P13  1/1/1970 SUPER-TEST</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT322        hT322       4 Plate1            P11  1/1/2022  MEGA-TEST</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT999        hT999       3 Plate1             P9  2/2/1994  MEGA-TEST</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        screen_type   z_prime       drug_a   drug_b drug_c drug_background</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT1001     TEST-01 0.2732018 Methotrexate      N/A    N/A             N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT102      TEST-01 0.2882018 Methotrexate      N/A    N/A             N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT1051     TEST-01 0.2500374     Abraxane      N/A    N/A             N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT192      TEST-01 0.2120181 Methotrexate      N/A    N/A             N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2211     TEST-01 0.0728753 Methotrexate      N/A    N/A             N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2212     TEST-01 0.0733353 Methotrexate Abraxane    N/A             N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2213     TEST-02 0.0718753 Methotrexate      N/A    N/A             N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2251     TEST-01 0.2500374 Methotrexate      N/A    N/A             N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT322      TEST-01 0.4219293 Methotrexate      N/A    N/A             N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT999      TEST-01 0.5520181 Methotrexate      N/A    N/A             N/A</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        dosage_type dosage_concentration_a dosage_concentration_b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT1001    Averaged              0.8518696                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT102     Averaged              0.8448696                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT1051    Averaged             -0.1422104                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT192     Averaged             -1.1180171                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2211    Averaged              0.3961993                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2212    Averaged             -1.4336204                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2213    Averaged              0.9332712                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2251    Averaged             -1.3327707                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT322     Averaged             -0.1231304                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT999     Averaged              1.4323183                      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        dosage_concentration_c dosage_concentration_background percent_viability</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT1001                      0                               0         30.611486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT102                       0                               0         34.411486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT1051                      0                               0         82.536416</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT192                       0                               0         76.119934</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2211                      0                               0         45.745011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2212                      0                               0          8.727732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2213                      0                               0         33.031484</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2251                      0                               0         80.220515</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT322                       0                               0         96.911149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT999                       0                               0         96.411486</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              ic50       auc relative_auc  patient_id</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT1001  1.0722432 218.00535    52.610445 Patient_001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT102   1.0002432 201.00535    46.110445 Patient_008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT1051  0.8666430 243.22110    73.212120 Patient_002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT192   0.9002432 187.00535    33.110445 Patient_009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2211  1.1417485 222.00729    53.576219 Patient_003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2212  0.7444589  49.99956     6.330331 Patient_004</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2213  0.8162142 242.36746    71.676280 Patient_005</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT2251  1.5223589 248.88756    63.380332 Patient_006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT322  14.1157419 931.14714    55.223002 Patient_007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> hT999   0.9880232 287.00535    97.312221 Patient_010</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
